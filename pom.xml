@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.hedvig.generic</groupId>
-	<artifactId>must-rename</artifactId>
+	<artifactId>asset-tracker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>must-rename</name>
-	<description>Demo project for Spring Boot</description>
+	<name>asset-tracker</name>
+	<description>Hedvig's asset-tracker service</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -65,6 +65,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-java8</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -109,6 +114,12 @@
 			<groupId>io.confluent</groupId>
 			<artifactId>kafka-avro-serializer</artifactId>
 			<version>3.3.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
@@ -120,9 +131,23 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
-		<!-- Pdf creator -->
-		    <dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-kubernetes</artifactId>
+            <version>0.2.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-kubernetes-config</artifactId>
+            <version>0.2.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-kubernetes-ribbon</artifactId>
+            <version>0.2.0.RELEASE</version>
+        </dependency>
+        		    <dependency>
         <groupId>com.itextpdf</groupId>
         <artifactId>kernel</artifactId>
         <version>7.0.2</version>
@@ -152,7 +177,6 @@
         <artifactId>pdftest</artifactId>
         <version>7.0.2</version>
     </dependency>
-		
 	</dependencies>
 
 	<build>

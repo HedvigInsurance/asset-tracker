@@ -5,14 +5,14 @@ import javax.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
-public class UserEntity {
+public class AssetEntity {
 
     @Id
     public String id;
 
     public String name;
 
-    public LocalDate birthDate;
+    public LocalDate registrationDate;
 
 
 }

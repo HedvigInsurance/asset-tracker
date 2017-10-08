@@ -1,4 +1,4 @@
-package pdfcreator;
+package com.hedvig.generic.mustrename.pdfcreate;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;

@@ -9,10 +9,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties(KafkaProperties.class)
-public class MustRenameApplication {
+public class AssetTrackerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MustRenameApplication.class, args);
+		SpringApplication.run(AssetTrackerApplication.class, args);
 	}
 
     @Autowired

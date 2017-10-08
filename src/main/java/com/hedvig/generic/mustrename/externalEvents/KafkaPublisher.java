@@ -2,7 +2,7 @@ package com.hedvig.generic.mustrename.externalEvents;
 
 import com.hedvig.generic.event.UserCreatedEvent_v1;
 import com.hedvig.generic.event.UserEvent_v1;
-import com.hedvig.generic.mustrename.events.UserCreatedEvent;
+import com.hedvig.generic.mustrename.events.AssetCreatedEvent;
 import org.apache.jute.Record;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -47,7 +47,7 @@ public class KafkaPublisher {
 //
 //        e.setEventPayload(payload);
 
-        this.producer = new KafkaProducer<>(props);
+        //this.producer = new KafkaProducer<>(props);
 
 //        ProducerRecord<String, UserEvent_v1> pr = new ProducerRecord<>("testTopic", "nyckel", e);
 //        Future<RecordMetadata> future = producer.send(pr);
@@ -63,8 +63,8 @@ public class KafkaPublisher {
 
     }
 
-    @EventHandler
-    public void on(UserCreatedEvent internalEvent, EventMessage message) throws ExecutionException, InterruptedException {
+   /* @EventHandler
+    public void on(AssetCreatedEvent internalEvent, EventMessage message) throws ExecutionException, InterruptedException {
         UserEvent_v1 e = new UserEvent_v1();
         e.setCreatedAt(message.getTimestamp().toString());
         e.setEventId(message.getIdentifier());
@@ -78,5 +78,5 @@ public class KafkaPublisher {
         Future<RecordMetadata> future = this.producer.send(pr);
         this.producer.flush();
         RecordMetadata recordMetadata = future.get();
-    }
+    }*/
 }
