@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: must-rename
+  name: asset-tracker
 spec:
   selector:
-    app: must-rename
+    app: asset-tracker
   ports:
   - protocol: TCP
-    port: 8080
+    port: 80
+    targetPort: 4082

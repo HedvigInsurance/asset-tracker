@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: must-rename-deployment
+  name: asset-tracker
 spec:
   replicas: 1 # tells deployment to run 2 pods matching the template
   template: # create pods using pod definition in this template
@@ -9,10 +9,10 @@ spec:
       # unlike pod-nginx.yaml, the name is not included in the meta data as a unique name is
       # generated from the deployment name
       labels:
-        app: must-rename
+        app: asset-tracker
     spec:
       containers:
-      - name: must-rename
-        image: 201427539538.dkr.ecr.eu-central-1.amazonaws.com/must-rename:latest
+      - name: asset-tracker
+        image: 201427539538.dkr.ecr.eu-central-1.amazonaws.com/asset-tracker:latest
         ports:
         - containerPort: 8080
