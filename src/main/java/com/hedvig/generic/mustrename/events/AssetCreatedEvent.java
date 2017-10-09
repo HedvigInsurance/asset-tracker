@@ -11,6 +11,7 @@ public class AssetCreatedEvent {
 
 	@AggregateIdentifier
     private String id;
+	private String userId;
     private String name;
     private LocalDate registrationDate;
 
