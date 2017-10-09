@@ -20,7 +20,7 @@ public class UpdateAssetCommand {
     private LocalDate registrationDate;
 
     public UpdateAssetCommand(String id, String name, LocalDate registrationDate) {
-        log.info("CreateAssetCommand");
+        log.info("UpdateAssetCommand");
         this.id = id;
         this.name = name;
         this.registrationDate = registrationDate;

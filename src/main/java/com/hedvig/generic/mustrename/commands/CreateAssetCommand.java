@@ -16,12 +16,14 @@ public class CreateAssetCommand {
 	
     @TargetAggregateIdentifier
     public String id;
+    public String userId;
     private String name;
     private LocalDate registrationDate;
 
-    public CreateAssetCommand(String id, String name, LocalDate registrationDate) {
+    public CreateAssetCommand(String userId, String id, String name, LocalDate registrationDate) {
         log.info("CreateAssetCommand");
         this.id = id;
+        this.userId = userId;
         this.name = name;
         this.registrationDate = registrationDate;
         log.info(this.toString());

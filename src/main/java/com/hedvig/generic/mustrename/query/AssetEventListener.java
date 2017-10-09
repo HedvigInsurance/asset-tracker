@@ -2,6 +2,7 @@ package com.hedvig.generic.mustrename.query;
 
 import com.hedvig.generic.mustrename.events.AssetCreatedEvent;
 import com.hedvig.generic.mustrename.events.AssetDeletedEvent;
+import com.hedvig.generic.mustrename.events.AssetUpdatedEvent;
 
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
@@ -25,9 +26,18 @@ public class AssetEventListener {
         log.info("AssetCreatedEvent: " + e);
         AssetEntity asset = new AssetEntity();
         asset.id = e.getId();
+        asset.userId = e.getUserId();
         asset.name = e.getName();
         asset.registrationDate = e.getRegistrationDate();
-
+        repository.save(asset);
+    }
+    
+    @EventHandler
+    public void on(AssetUpdatedEvent e){
+        log.info("AssetUpdatedEvent: " + e);
+        AssetEntity asset = repository.findById(e.getId()).orElseThrow(() -> new ResourceNotFoundException("Could not find memberchat."));
+        asset.name = e.getName();
+        asset.registrationDate = e.getRegistrationDate();
         repository.save(asset);
     }
     
@@ -38,7 +48,6 @@ public class AssetEventListener {
         asset.id = e.getId();
         asset.name = e.getName();
         asset.registrationDate = e.getRegistrationDate();
-
         repository.delete(asset);
     }
 }

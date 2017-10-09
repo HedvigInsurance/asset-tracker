@@ -39,17 +39,17 @@ public class AssetAggregate {
     @CommandHandler
     public AssetAggregate(CreateAssetCommand command) {
         log.info("create");
-        apply(new AssetCreatedEvent(command.getId(), command.getName(), command.getRegistrationDate()));
+        apply(new AssetCreatedEvent(command.getId(), command.getUserId(), command.getName(), command.getRegistrationDate()));
     }
 
     @CommandHandler
-    public AssetAggregate(UpdateAssetCommand command) {
+    public void update(UpdateAssetCommand command) {
         log.info("update");
         apply(new AssetUpdatedEvent(command.getId(), command.getName(), command.getRegistrationDate()));
     }
     
     @CommandHandler
-    public AssetAggregate(DeleteAssetCommand command) {
+    public void delete(DeleteAssetCommand command) {
         log.info("delete");
         apply(new AssetDeletedEvent(command.getId(), command.getName(), command.getRegistrationDate()));
     }

@@ -20,7 +20,7 @@ public class DeleteAssetCommand {
     private LocalDate registrationDate;
 
     public DeleteAssetCommand(String id, String name, LocalDate registrationDate) {
-        log.info("CreateAssetCommand");
+        log.info("DeleteAssetCommand");
         this.id = id;
         this.name = name;
         this.registrationDate = registrationDate;
