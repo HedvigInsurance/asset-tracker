@@ -55,7 +55,7 @@ public class AssetTrackerController {
         this.filerepo = filerepo;
     }
 
-    @RequestMapping(value = "/asset/fileupload/", method = RequestMethod.POST)
+    @RequestMapping(value = "/asset/fileupload/", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String handleFileUpload(@ModelAttribute("file") MultipartFile fileUpload,
     		@RequestHeader(value="hedvig.token", required = false) String hid) throws Exception {
     		UUID uid = UUID.randomUUID();
