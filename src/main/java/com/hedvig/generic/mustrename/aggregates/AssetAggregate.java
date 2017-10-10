@@ -25,11 +25,16 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 public class AssetAggregate {
 
 	private static Logger log = LoggerFactory.getLogger(AssetAggregate.class);
+	private static enum assetStates {CREATED, PENDING, WAITING_FOR_PAYMENT, NOT_COVERED, COVERED};
+	
     @AggregateIdentifier
     public String id;
-
-    public String name;
-
+    public String photoUrl;
+    public String receiptUrl;
+    public String title;
+    public String state;
+    public Boolean includedInBasePackage;
+    public String userId;
     public LocalDate registrationDate;
 
     public AssetAggregate(){
@@ -39,25 +44,48 @@ public class AssetAggregate {
     @CommandHandler
     public AssetAggregate(CreateAssetCommand command) {
         log.info("create");
-        apply(new AssetCreatedEvent(command.getId(), command.getUserId(), command.getName(), command.getRegistrationDate()));
+        AssetCreatedEvent e = new AssetCreatedEvent(
+        command.getId(),
+        command.getPhotoUrl(),
+        command.getReceiptUrl(),
+        command.getTitle(),
+        assetStates.PENDING.toString(), // Default set to pending
+        command.getIncludedInBasePackage(),
+        command.getUserId(),
+        LocalDate.now()); // Registration time
+        
+        apply(e);
     }
 
     @CommandHandler
     public void update(UpdateAssetCommand command) {
         log.info("update");
-        apply(new AssetUpdatedEvent(command.getId(), command.getName(), command.getRegistrationDate()));
+        AssetUpdatedEvent e = new AssetUpdatedEvent(
+        command.getId(),
+        command.getPhotoUrl(),
+        command.getReceiptUrl(),
+        command.getTitle(),
+        command.getState(),
+        command.getIncludedInBasePackage());
+
+        apply(e);
     }
     
     @CommandHandler
     public void delete(DeleteAssetCommand command) {
         log.info("delete");
-        apply(new AssetDeletedEvent(command.getId(), command.getName(), command.getRegistrationDate()));
+        apply(new AssetDeletedEvent(command.getId()));
     }
     
     @EventSourcingHandler
     public void on(AssetCreatedEvent e) {
         this.id = e.getId();
-        this.name = e.getName();
+        this.photoUrl = e.getPhotoUrl();
+        this.receiptUrl = e.getReceiptUrl();
+        this.title = e.getTitle();
+        this.state = e.getState();
+        this.includedInBasePackage = e.getIncludedInBasePackage();
+        this.userId = e.getUserId();
         this.registrationDate = e.getRegistrationDate();
     }
 }

@@ -15,21 +15,26 @@ import java.time.LocalDate;
 public class AssetEntity {
 
 	private static Logger log = LoggerFactory.getLogger(AssetEntity.class);
-	
+
     @Id
     public String id;
-
+    public String photoUrl;
+    public String receiptUrl;
+    public String title;
+    public String state;
+    public boolean includedInBasePackage;
     public String userId;
-    
-    public String name;
-
     public LocalDate registrationDate;
 
-
-    // Not user if this is the right place for this but...
     public AssetDTO convertToDTO(){
-    	log.info("Return dto version of:" + this);
-    	return new AssetDTO(id, name, registrationDate);
+    	AssetDTO asset = new AssetDTO();
+        asset.id = id;
+        asset.photoUrl = photoUrl;
+        asset.receiptUrl = receiptUrl;
+        asset.title = title;
+        asset.state = state;
+        asset.includedInBasePackage = includedInBasePackage;
+        asset.registrationDate = registrationDate;
+        return asset;
     }
-    
 }

@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hedvig.generic.mustrename.query.AssetEventListener;
+import com.hedvig.generic.mustrename.web.dto.AssetDTO;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Value
 public class CreateAssetCommand {
@@ -16,16 +18,22 @@ public class CreateAssetCommand {
 	
     @TargetAggregateIdentifier
     public String id;
+    public String photoUrl;
+    public String receiptUrl;
+    public String title;
+    public String state;
+    public Boolean includedInBasePackage;
     public String userId;
-    private String name;
-    private LocalDate registrationDate;
 
-    public CreateAssetCommand(String userId, String id, String name, LocalDate registrationDate) {
+    public CreateAssetCommand(String userId, String id, AssetDTO asset) {
         log.info("CreateAssetCommand");
-        this.id = id;
         this.userId = userId;
-        this.name = name;
-        this.registrationDate = registrationDate;
+        this.id = id;
+        this.photoUrl = asset.photoUrl;
+        this.receiptUrl = asset.receiptUrl;
+        this.title = asset.title;
+        this.state = asset.state;
+        this.includedInBasePackage = asset.includedInBasePackage;
         log.info(this.toString());
-    } 
+    }
 }

@@ -4,6 +4,9 @@ import com.hedvig.generic.mustrename.events.AssetCreatedEvent;
 import com.hedvig.generic.mustrename.events.AssetDeletedEvent;
 import com.hedvig.generic.mustrename.events.AssetUpdatedEvent;
 
+import java.time.Instant;
+import java.time.LocalDate;
+
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +30,10 @@ public class AssetEventListener {
         AssetEntity asset = new AssetEntity();
         asset.id = e.getId();
         asset.userId = e.getUserId();
-        asset.name = e.getName();
+        asset.photoUrl = e.getPhotoUrl();
+        asset.receiptUrl = e.getReceiptUrl();
+        asset.title = e.getTitle();
+        asset.state = e.getState();
         asset.registrationDate = e.getRegistrationDate();
         repository.save(asset);
     }
@@ -36,8 +42,12 @@ public class AssetEventListener {
     public void on(AssetUpdatedEvent e){
         log.info("AssetUpdatedEvent: " + e);
         AssetEntity asset = repository.findById(e.getId()).orElseThrow(() -> new ResourceNotFoundException("Could not find memberchat."));
-        asset.name = e.getName();
-        asset.registrationDate = e.getRegistrationDate();
+        asset.id = e.getId();
+        asset.photoUrl = e.getPhotoUrl();
+        asset.receiptUrl = e.getReceiptUrl();
+        asset.title = e.getTitle();
+        asset.state = e.getState();
+        asset.includedInBasePackage = e.getIncludedInBasePackage();
         repository.save(asset);
     }
     
@@ -46,8 +56,6 @@ public class AssetEventListener {
         log.info("AssetDeletedEvent: " + e);
         AssetEntity asset = new AssetEntity();
         asset.id = e.getId();
-        asset.name = e.getName();
-        asset.registrationDate = e.getRegistrationDate();
         repository.delete(asset);
     }
 }

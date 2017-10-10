@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.hedvig.generic.mustrename.query.AssetEventListener;
+import com.hedvig.generic.mustrename.web.dto.AssetDTO;
 
 import java.time.LocalDate;
 
@@ -16,14 +17,20 @@ public class UpdateAssetCommand {
 	
     @TargetAggregateIdentifier
     public String id;
-    private String name;
-    private LocalDate registrationDate;
+    public String photoUrl;
+    public String receiptUrl;
+    public String title;
+    public String state;
+    public Boolean includedInBasePackage;
 
-    public UpdateAssetCommand(String id, String name, LocalDate registrationDate) {
+	public UpdateAssetCommand(AssetDTO asset) {
         log.info("UpdateAssetCommand");
-        this.id = id;
-        this.name = name;
-        this.registrationDate = registrationDate;
+        this.id = asset.id;
+        this.photoUrl = asset.photoUrl;
+        this.receiptUrl = asset.receiptUrl;
+        this.title = asset.title;
+        this.state = asset.state;
+        this.includedInBasePackage = asset.includedInBasePackage;
         log.info(this.toString());
-    } 
+	}
 }

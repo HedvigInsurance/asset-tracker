@@ -9,8 +9,12 @@ import java.time.LocalDate;
 public class AssetDeletedEvent {
 
 	@AggregateIdentifier
-    private String id;
-    private String name;
-    private LocalDate registrationDate;
+    public String id;
 
+	public AssetDeletedEvent(    
+			String id
+			) {
+		this.id = id; 
+
+	}
 }

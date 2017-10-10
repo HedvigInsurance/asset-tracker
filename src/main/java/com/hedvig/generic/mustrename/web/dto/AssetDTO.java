@@ -9,17 +9,19 @@ import java.time.LocalDate;
 public class AssetDTO {
 
     public String id;
-    public String name;
+    public String photoUrl;
+    public String receiptUrl;
+    public String title;
+    public String state;
+    public Boolean includedInBasePackage;
 
     @JsonDeserialize(using= LocalDateDeserializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate registrationDate;
 
     public AssetDTO(){}
 
-    public AssetDTO(String id, String name, LocalDate birthDate) {
+    /*public AssetDTO(String id, String name, LocalDate registrationDate) {
         this.id = id;
-        this.name = name;
-        this.registrationDate = birthDate;
-    }
+        this.registrationDate = registrationDate;
+    }*/
 }

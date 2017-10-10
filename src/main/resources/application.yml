@@ -39,8 +39,11 @@ spring:
       show_sql: true
       format_sql: true
       naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
-
-
+      
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+      
   datasource:
     url: jdbc:postgresql://localhost:5432/asset-tracker
     username: postgres

@@ -1,27 +1,44 @@
 package com.hedvig.generic.mustrename.web;
 
-import com.hedvig.generic.mustrename.commands.CreateAssetCommand;
-import com.hedvig.generic.mustrename.commands.DeleteAssetCommand;
-import com.hedvig.generic.mustrename.commands.UpdateAssetCommand;
-import com.hedvig.generic.mustrename.query.AssetRepository;
-import com.hedvig.generic.mustrename.web.dto.AssetDTO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.tika.Tika;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import com.hedvig.generic.mustrename.commands.CreateAssetCommand;
+import com.hedvig.generic.mustrename.commands.DeleteAssetCommand;
+import com.hedvig.generic.mustrename.commands.UpdateAssetCommand;
+import com.hedvig.generic.mustrename.query.AssetRepository;
+import com.hedvig.generic.mustrename.query.FileUploadRepository;
+import com.hedvig.generic.mustrename.query.UploadFile;
+import com.hedvig.generic.mustrename.web.dto.AssetDTO;
 
 @RestController
 public class AssetTrackerController {
@@ -29,13 +46,61 @@ public class AssetTrackerController {
 	private static Logger log = LoggerFactory.getLogger(AssetTrackerController.class);
     private final AssetRepository userRepository;
     private final CommandGateway commandBus;
+    private final FileUploadRepository filerepo;
 
     @Autowired
-    public AssetTrackerController(CommandBus commandBus, AssetRepository repository) {
+    public AssetTrackerController(CommandBus commandBus, AssetRepository repository, FileUploadRepository filerepo) {
         this.commandBus = new DefaultCommandGateway(commandBus);
         this.userRepository = repository;
+        this.filerepo = filerepo;
     }
 
+    @RequestMapping(value = "/asset/fileupload/", method = RequestMethod.POST)
+    public String handleFileUpload(@ModelAttribute("file") MultipartFile fileUpload,
+    		@RequestHeader(value="hedvig.token", required = false) String hid) throws Exception {
+    		UUID uid = UUID.randomUUID();
+            log.info("Saving file: " + fileUpload.getOriginalFilename());
+             
+            UploadFile uploadFile = new UploadFile();
+            uploadFile.setFileName(fileUpload.getOriginalFilename());
+            uploadFile.setData(fileUpload.getBytes());
+            uploadFile.setUserId(hid);
+            uploadFile.setImageId(uid);
+            uploadFile.setContentType(fileUpload.getContentType());
+            filerepo.save(uploadFile);             
+
+        return "{id:"+uid+"}";
+    } 
+    
+    @RequestMapping(value = "/asset/image/{image_id}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImageAsResponseEntity(@PathVariable UUID image_id, 
+    		@RequestHeader(value="hedvig.token", required = false) String hid) {
+        HttpHeaders headers = new HttpHeaders();
+        
+        Optional<UploadFile> file = filerepo.findByImageId(image_id);
+        if(file.isPresent()){
+            InputStream in = new ByteArrayInputStream(file.get().getData());
+            byte[] media;
+			try {
+				media = IOUtils.toByteArray(in);
+				log.info("Get image:" + image_id + " content-type:" + file.get().getContentType());
+				
+				headers.setContentType(MediaType.valueOf(file.get().getContentType()));
+	            headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+	             
+	            return new ResponseEntity<>(media, headers, HttpStatus.OK);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        else{
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+    
     // Based CRUD commands for assets ---------------------- //
     
     @RequestMapping(path="/asset/", method = RequestMethod.GET)
@@ -50,25 +115,25 @@ public class AssetTrackerController {
     }
 
     @RequestMapping(path = "/asset/", method = RequestMethod.POST)
-    public ResponseEntity<?> createAsset(@RequestBody AssetDTO user, @RequestHeader(value="hedvig.token", required = false) String hid) {
+    public ResponseEntity<?> createAsset(@RequestBody AssetDTO asset, @RequestHeader(value="hedvig.token", required = false) String hid) {
         UUID uid = UUID.randomUUID();
         log.info(uid.toString());
-        commandBus.sendAndWait(new CreateAssetCommand(hid, uid.toString(), user.name, user.registrationDate));
+        commandBus.sendAndWait(new CreateAssetCommand(hid, uid.toString(), asset));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(uid.toString()).toUri();
         return ResponseEntity.created(location).build();
     }
-
+    
     @RequestMapping(path = "/asset/", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAsset(@RequestBody AssetDTO asset) {
         log.info("Deleting:" + asset.id);
-        commandBus.sendAndWait(new DeleteAssetCommand(asset.id, asset.name, asset.registrationDate));
+        commandBus.sendAndWait(new DeleteAssetCommand(asset.id));
         return ResponseEntity.ok("Deleted asset:" + asset.id);
     }
     
     @RequestMapping(path = "/asset/", method = RequestMethod.PUT)
     public ResponseEntity<?> updateAsset(@RequestBody AssetDTO asset) {
         log.info("Updating:" + asset.id);
-        commandBus.sendAndWait(new UpdateAssetCommand(asset.id, asset.name, asset.registrationDate));
+        commandBus.sendAndWait(new UpdateAssetCommand(asset));
         return ResponseEntity.ok("Updated asset:" + asset.id);
     }
     

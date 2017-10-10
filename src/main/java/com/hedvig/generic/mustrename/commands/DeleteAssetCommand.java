@@ -16,14 +16,9 @@ public class DeleteAssetCommand {
 	
     @TargetAggregateIdentifier
     public String id;
-    private String name;
-    private LocalDate registrationDate;
 
-    public DeleteAssetCommand(String id, String name, LocalDate registrationDate) {
+    public DeleteAssetCommand(String id) {
         log.info("DeleteAssetCommand");
         this.id = id;
-        this.name = name;
-        this.registrationDate = registrationDate;
-        log.info(this.toString());
-    } 
+    }
 }
