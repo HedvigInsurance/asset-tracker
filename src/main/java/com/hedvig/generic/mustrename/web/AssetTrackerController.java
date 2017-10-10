@@ -125,9 +125,10 @@ public class AssetTrackerController {
     
     @RequestMapping(path = "/asset/", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAsset(@RequestBody AssetDTO asset) {
+    	String aid = asset.id;
         log.info("Deleting:" + asset.id);
         commandBus.sendAndWait(new DeleteAssetCommand(asset.id));
-        return ResponseEntity.ok("Deleted asset:" + asset.id);
+        return ResponseEntity.ok("Deleted asset:" + aid);
     }
     
     @RequestMapping(path = "/asset/", method = RequestMethod.PUT)
