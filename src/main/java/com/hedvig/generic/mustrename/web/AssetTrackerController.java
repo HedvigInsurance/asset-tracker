@@ -123,11 +123,12 @@ public class AssetTrackerController {
         return ResponseEntity.created(location).build();
     }
     
-    @RequestMapping(path = "/asset/", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAsset(@RequestBody AssetDTO asset) {
-        log.info("Deleting:" + asset.id);
-        commandBus.sendAndWait(new DeleteAssetCommand(asset.id));
-        return ResponseEntity.ok("Deleted asset:" + asset.id);
+    @RequestMapping(path = "/asset/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteAsset(@PathVariable String id) {
+    	String aid = id;
+        log.info("Deleting:" + id);
+        commandBus.sendAndWait(new DeleteAssetCommand(id));
+        return ResponseEntity.ok("Deleted asset:" + aid);
     }
     
     @RequestMapping(path = "/asset/", method = RequestMethod.PUT)
