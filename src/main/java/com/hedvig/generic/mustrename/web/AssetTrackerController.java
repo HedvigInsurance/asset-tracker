@@ -69,7 +69,7 @@ public class AssetTrackerController {
             uploadFile.setContentType(fileUpload.getContentType());
             filerepo.save(uploadFile);             
 
-        return "{id:"+uid+"}";
+        return "{\"id\":"+uid+"}";
     } 
     
     @RequestMapping(value = "/asset/image/{image_id}", method = RequestMethod.GET)
