@@ -55,7 +55,7 @@ public class AssetTrackerController {
         this.filerepo = filerepo;
     }
 
-    @RequestMapping(value = "/asset/fileupload/", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
+    @RequestMapping(value = "/asset/fileupload", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String handleFileUpload(@ModelAttribute("file") MultipartFile fileUpload,
     		@RequestHeader(value="hedvig.token", required = false) String hid) throws Exception {
     		UUID uid = UUID.randomUUID();
@@ -103,7 +103,7 @@ public class AssetTrackerController {
     
     // Based CRUD commands for assets ---------------------- //
     
-    @RequestMapping(path="/asset/", method = RequestMethod.GET)
+    @RequestMapping(path="/asset", method = RequestMethod.GET)
     public List<AssetDTO> getAsset(@RequestHeader(value="hedvig.token", required = false) String hid) {
         /*return userRepository
                 .findByUserId(hid)
@@ -114,7 +114,7 @@ public class AssetTrackerController {
 
     }
 
-    @RequestMapping(path = "/asset/", method = RequestMethod.POST)
+    @RequestMapping(path = "/asset", method = RequestMethod.POST)
     public ResponseEntity<?> createAsset(@RequestBody AssetDTO asset, @RequestHeader(value="hedvig.token", required = false) String hid) {
         UUID uid = UUID.randomUUID();
         log.info(uid.toString());
@@ -131,7 +131,7 @@ public class AssetTrackerController {
         return ResponseEntity.ok("Deleted asset:" + aid);
     }
     
-    @RequestMapping(path = "/asset/", method = RequestMethod.PUT)
+    @RequestMapping(path = "/asset", method = RequestMethod.PUT)
     public ResponseEntity<?> updateAsset(@RequestBody AssetDTO asset) {
         log.info("Updating:" + asset.id);
         commandBus.sendAndWait(new UpdateAssetCommand(asset));
