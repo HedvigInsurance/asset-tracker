@@ -113,10 +113,9 @@ public class AssetTrackerController {
     
     @RequestMapping(path = "/asset/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAsset(@PathVariable String id) {
-    	String aid = id;
         log.info("Deleting:" + id);
         commandBus.sendAndWait(new DeleteAssetCommand(id));
-        return ResponseEntity.ok("Deleted asset:" + aid);
+        return ResponseEntity.noContent().build();
     }
     
     @RequestMapping(path = "/asset/{id}", method = RequestMethod.PUT)
