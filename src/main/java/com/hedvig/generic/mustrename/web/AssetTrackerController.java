@@ -126,7 +126,7 @@ public class AssetTrackerController {
 
         log.info("Updating:" + asset.id);
         commandBus.sendAndWait(new UpdateAssetCommand(asset));
-        return ResponseEntity.ok("Updated asset:" + asset.id);
+        return ResponseEntity.ok("{\"id:\":\"" + asset.id + "\"}");
     }
     
 }
