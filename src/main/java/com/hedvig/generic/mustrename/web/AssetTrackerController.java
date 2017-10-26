@@ -1,5 +1,24 @@
 package com.hedvig.generic.mustrename.web;
 
+import com.hedvig.generic.mustrename.commands.CreateAssetCommand;
+import com.hedvig.generic.mustrename.commands.DeleteAssetCommand;
+import com.hedvig.generic.mustrename.commands.UpdateAssetCommand;
+import com.hedvig.generic.mustrename.query.AssetRepository;
+import com.hedvig.generic.mustrename.query.FileUploadRepository;
+import com.hedvig.generic.mustrename.query.UploadFile;
+import com.hedvig.generic.mustrename.web.dto.AssetDTO;
+import org.apache.commons.compress.utils.IOUtils;
+import org.axonframework.commandhandling.CommandBus;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,37 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.tika.Tika;
-import org.axonframework.commandhandling.CommandBus;
-import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.axonframework.commandhandling.gateway.DefaultCommandGateway;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.hedvig.generic.mustrename.commands.CreateAssetCommand;
-import com.hedvig.generic.mustrename.commands.DeleteAssetCommand;
-import com.hedvig.generic.mustrename.commands.UpdateAssetCommand;
-import com.hedvig.generic.mustrename.query.AssetRepository;
-import com.hedvig.generic.mustrename.query.FileUploadRepository;
-import com.hedvig.generic.mustrename.query.UploadFile;
-import com.hedvig.generic.mustrename.web.dto.AssetDTO;
 
 @RestController
 public class AssetTrackerController {
@@ -120,7 +108,7 @@ public class AssetTrackerController {
         log.info(uid.toString());
         commandBus.sendAndWait(new CreateAssetCommand(hid, uid.toString(), asset));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(uid.toString()).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body("{\"id:\":\"" + uid.toString() + "\"}");
     }
     
     @RequestMapping(path = "/asset/{id}", method = RequestMethod.DELETE)
@@ -131,8 +119,11 @@ public class AssetTrackerController {
         return ResponseEntity.ok("Deleted asset:" + aid);
     }
     
-    @RequestMapping(path = "/asset", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateAsset(@RequestBody AssetDTO asset) {
+    @RequestMapping(path = "/asset/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateAsset(@RequestBody AssetDTO asset, @PathVariable String id) {
+        if(!id.equals(asset.id))
+            return ResponseEntity.badRequest().body("{\"message\":\"Idnumber in body does not match resource id.\"}");
+
         log.info("Updating:" + asset.id);
         commandBus.sendAndWait(new UpdateAssetCommand(asset));
         return ResponseEntity.ok("Updated asset:" + asset.id);
