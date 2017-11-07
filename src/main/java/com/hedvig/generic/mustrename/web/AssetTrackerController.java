@@ -35,6 +35,7 @@ public class AssetTrackerController {
     private final AssetRepository userRepository;
     private final CommandGateway commandBus;
     private final FileUploadRepository filerepo;
+    private final String imageBaseUrl = "${hedvig.product-pricing.url}";
 
     @Autowired
     public AssetTrackerController(CommandBus commandBus, AssetRepository repository, FileUploadRepository filerepo) {
@@ -43,8 +44,8 @@ public class AssetTrackerController {
         this.filerepo = filerepo;
     }
 
-    @RequestMapping(value = "/asset/fileupload", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-    public String handleFileUpload(@ModelAttribute("file") MultipartFile fileUpload,
+    @RequestMapping(value = "/asset/fileupload", method = RequestMethod.POST, produces="application/json;charset=UTF-8", consumes="multipart/form-data")
+    public ResponseEntity<String> handleFileUpload(@ModelAttribute("file") MultipartFile fileUpload,
     		@RequestHeader(value="hedvig.token", required = false) String hid) throws Exception {
     		UUID uid = UUID.randomUUID();
             log.info("Saving file: " + fileUpload.getOriginalFilename());
@@ -57,7 +58,7 @@ public class AssetTrackerController {
             uploadFile.setContentType(fileUpload.getContentType());
             filerepo.save(uploadFile);             
 
-        return "{\"id\":"+uid+"}";
+        return ResponseEntity.noContent().header("Location", imageBaseUrl + "/asset/image/" + uid.toString()).build();
     } 
     
     @RequestMapping(value = "/asset/image/{image_id}", method = RequestMethod.GET)
