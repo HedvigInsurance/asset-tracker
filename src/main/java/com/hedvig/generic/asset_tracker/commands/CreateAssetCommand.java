@@ -1,6 +1,6 @@
-package com.hedvig.generic.mustrename.commands;
+package com.hedvig.generic.asset_tracker.commands;
 
-import com.hedvig.generic.mustrename.web.dto.AssetDTO;
+import com.hedvig.generic.asset_tracker.web.dto.AssetDTO;
 import lombok.Value;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import org.slf4j.Logger;

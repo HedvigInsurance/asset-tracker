@@ -1,4 +1,4 @@
-package com.hedvig.generic.mustrename.web.dto;
+package com.hedvig.generic.asset_tracker.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

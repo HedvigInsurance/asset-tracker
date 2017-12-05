@@ -1,4 +1,4 @@
-package com.hedvig.generic.mustrename.externalEvents;
+package com.hedvig.generic.asset_tracker.externalEvents;
 
 import com.hedvig.generic.event.UserEvent_v1;
 import org.apache.kafka.clients.producer.KafkaProducer;

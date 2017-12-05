@@ -1,4 +1,4 @@
-package com.hedvig.generic.mustrename.pdfcreate;
+package com.hedvig.generic.asset_tracker.pdfcreate;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;

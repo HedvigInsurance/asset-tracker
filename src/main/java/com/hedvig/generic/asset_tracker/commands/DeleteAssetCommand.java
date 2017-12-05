@@ -1,4 +1,4 @@
-package com.hedvig.generic.mustrename.commands;
+package com.hedvig.generic.asset_tracker.commands;
 
 import lombok.Value;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;

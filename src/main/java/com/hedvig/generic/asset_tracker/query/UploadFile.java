@@ -1,4 +1,4 @@
-package com.hedvig.generic.mustrename.query;
+package com.hedvig.generic.asset_tracker.query;
 
 import javax.persistence.*;
 import java.util.UUID;

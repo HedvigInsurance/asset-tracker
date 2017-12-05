@@ -1,6 +1,6 @@
-package com.hedvig.generic.mustrename.query;
+package com.hedvig.generic.asset_tracker.query;
 
-import com.hedvig.generic.mustrename.web.dto.AssetDTO;
+import com.hedvig.generic.asset_tracker.web.dto.AssetDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

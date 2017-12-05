@@ -1,6 +1,6 @@
-package com.hedvig.generic.mustrename;
+package com.hedvig.generic.asset_tracker;
 
-import com.hedvig.generic.mustrename.externalEvents.KafkaProperties;
+import com.hedvig.generic.asset_tracker.externalEvents.KafkaProperties;
 import org.axonframework.config.EventHandlingConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

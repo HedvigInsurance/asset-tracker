@@ -1,12 +1,12 @@
-package com.hedvig.generic.mustrename.web;
+package com.hedvig.generic.asset_tracker.web;
 
-import com.hedvig.generic.mustrename.commands.CreateAssetCommand;
-import com.hedvig.generic.mustrename.commands.DeleteAssetCommand;
-import com.hedvig.generic.mustrename.commands.UpdateAssetCommand;
-import com.hedvig.generic.mustrename.query.AssetRepository;
-import com.hedvig.generic.mustrename.query.FileUploadRepository;
-import com.hedvig.generic.mustrename.query.UploadFile;
-import com.hedvig.generic.mustrename.web.dto.AssetDTO;
+import com.hedvig.generic.asset_tracker.commands.CreateAssetCommand;
+import com.hedvig.generic.asset_tracker.commands.DeleteAssetCommand;
+import com.hedvig.generic.asset_tracker.commands.UpdateAssetCommand;
+import com.hedvig.generic.asset_tracker.query.AssetRepository;
+import com.hedvig.generic.asset_tracker.query.FileUploadRepository;
+import com.hedvig.generic.asset_tracker.query.UploadFile;
+import com.hedvig.generic.asset_tracker.web.dto.AssetDTO;
 import org.apache.commons.compress.utils.IOUtils;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.gateway.CommandGateway;

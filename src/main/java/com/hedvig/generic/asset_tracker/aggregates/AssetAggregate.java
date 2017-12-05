@@ -1,11 +1,11 @@
-package com.hedvig.generic.mustrename.aggregates;
+package com.hedvig.generic.asset_tracker.aggregates;
 
-import com.hedvig.generic.mustrename.commands.CreateAssetCommand;
-import com.hedvig.generic.mustrename.commands.DeleteAssetCommand;
-import com.hedvig.generic.mustrename.commands.UpdateAssetCommand;
-import com.hedvig.generic.mustrename.events.AssetCreatedEvent;
-import com.hedvig.generic.mustrename.events.AssetDeletedEvent;
-import com.hedvig.generic.mustrename.events.AssetUpdatedEvent;
+import com.hedvig.generic.asset_tracker.commands.CreateAssetCommand;
+import com.hedvig.generic.asset_tracker.commands.DeleteAssetCommand;
+import com.hedvig.generic.asset_tracker.commands.UpdateAssetCommand;
+import com.hedvig.generic.asset_tracker.events.AssetCreatedEvent;
+import com.hedvig.generic.asset_tracker.events.AssetDeletedEvent;
+import com.hedvig.generic.asset_tracker.events.AssetUpdatedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;

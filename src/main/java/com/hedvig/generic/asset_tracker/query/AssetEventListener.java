@@ -1,8 +1,8 @@
-package com.hedvig.generic.mustrename.query;
+package com.hedvig.generic.asset_tracker.query;
 
-import com.hedvig.generic.mustrename.events.AssetCreatedEvent;
-import com.hedvig.generic.mustrename.events.AssetDeletedEvent;
-import com.hedvig.generic.mustrename.events.AssetUpdatedEvent;
+import com.hedvig.generic.asset_tracker.events.AssetCreatedEvent;
+import com.hedvig.generic.asset_tracker.events.AssetDeletedEvent;
+import com.hedvig.generic.asset_tracker.events.AssetUpdatedEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.hedvig.generic.mustrename.events;
+package com.hedvig.generic.asset_tracker.events;
 
 import lombok.Value;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
