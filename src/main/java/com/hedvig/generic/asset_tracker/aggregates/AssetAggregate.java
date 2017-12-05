@@ -54,7 +54,7 @@ public class AssetAggregate {
                 command.getPhotoUrl(),
                 command.getReceiptUrl(),
                 command.getTitle(),
-                assetStates.PENDING.toString(), // Default set to pending
+                AssetStates.PENDING.toString(), // Default set to pending
                 command.getIncludedInBasePackage(),
                 command.getUserId(),
                 LocalDate.now()); // Registration time
@@ -94,5 +94,4 @@ public class AssetAggregate {
         this.registrationDate = e.getRegistrationDate();
     }
 
-    private enum assetStates {CREATED, PENDING, WAITING_FOR_PAYMENT, NOT_COVERED, COVERED}
 }

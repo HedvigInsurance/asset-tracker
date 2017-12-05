@@ -6,7 +6,9 @@ import com.hedvig.generic.asset_tracker.commands.UpdateAssetCommand;
 import com.hedvig.generic.asset_tracker.query.AssetRepository;
 import com.hedvig.generic.asset_tracker.query.FileUploadRepository;
 import com.hedvig.generic.asset_tracker.query.UploadFile;
+import com.hedvig.generic.asset_tracker.web.dto.AssetCreatedDTO;
 import com.hedvig.generic.asset_tracker.web.dto.AssetDTO;
+import lombok.val;
 import org.apache.commons.compress.utils.IOUtils;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -103,12 +105,15 @@ public class AssetTrackerController {
     }
 
     @RequestMapping(path = "/asset", method = RequestMethod.POST)
-    public ResponseEntity<?> createAsset(@RequestBody AssetDTO asset, @RequestHeader(value = "hedvig.token", required = false) String hid) {
-        UUID uid = UUID.randomUUID();
-        log.info(uid.toString());
+    public ResponseEntity<AssetCreatedDTO> createAsset(
+            @RequestBody AssetDTO asset,
+            @RequestHeader(value = "hedvig.token", required = false) String hid) {
+        val uid = UUID.randomUUID();
+        log.info("Creating asset uid: {}, data: {}", uid, asset);
         commandBus.sendAndWait(new CreateAssetCommand(hid, uid.toString(), asset));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(uid.toString()).toUri();
-        return ResponseEntity.created(location).body("{\"id:\":\"" + uid.toString() + "\"}");
+        val assetCreated = new AssetCreatedDTO(uid.toString());
+        return ResponseEntity.created(location).body(assetCreated);
     }
 
     @RequestMapping(path = "/asset/{id}", method = RequestMethod.DELETE)

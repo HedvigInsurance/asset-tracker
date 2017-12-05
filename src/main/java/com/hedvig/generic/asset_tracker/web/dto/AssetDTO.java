@@ -1,9 +1,13 @@
 package com.hedvig.generic.asset_tracker.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
+@NoArgsConstructor
+@ToString
 public class AssetDTO {
 
     public String id;
@@ -15,12 +19,4 @@ public class AssetDTO {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate registrationDate;
-
-    public AssetDTO() {
-    }
-
-    /*public AssetDTO(String id, String name, LocalDate registrationDate) {
-        this.id = id;
-        this.registrationDate = registrationDate;
-    }*/
 }
