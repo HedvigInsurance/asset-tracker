@@ -1,25 +1,11 @@
 package com.hedvig.generic.mustrename.externalEvents;
 
-import com.hedvig.generic.event.UserCreatedEvent_v1;
 import com.hedvig.generic.event.UserEvent_v1;
-import com.hedvig.generic.mustrename.events.AssetCreatedEvent;
-import org.apache.jute.Record;
 import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
-import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.eventhandling.EventMessage;
-import org.axonframework.eventhandling.Timestamp;
-import org.axonframework.messaging.Message;
-import org.axonframework.messaging.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.Properties;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 @Component
 public class KafkaPublisher {
@@ -38,7 +24,6 @@ public class KafkaPublisher {
         props.put("key.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
         props.put("value.serializer", "io.confluent.kafka.serializers.KafkaAvroSerializer");
         props.put("schema.registry.url", properties.schema.registry.url);
-
 
 
 //        UserCreatedEvent_v1 payload = new UserCreatedEvent_v1();

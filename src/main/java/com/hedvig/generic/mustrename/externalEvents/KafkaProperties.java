@@ -10,20 +10,17 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties(prefix = "hedvig.kafka")
 public class KafkaProperties {
 
+    public String acks;
+    public Bootstrap bootstrap = new Bootstrap();
+    public int retries;
+    @NestedConfigurationProperty
+    public Schema schema = new Schema();
+
     @Getter
     @Setter
     public static class Bootstrap {
         public String servers = "";
     }
-
-    public String acks;
-
-    public Bootstrap bootstrap = new Bootstrap();
-
-    public int retries;
-
-    @NestedConfigurationProperty
-    public Schema schema = new Schema();
 
     @Getter
     @Setter
