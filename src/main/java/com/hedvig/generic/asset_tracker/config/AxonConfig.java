@@ -24,7 +24,7 @@ public class AxonConfig {
     }
 
     @Bean
-    public AssetCommandHandler bankAccountCommandHandler() {
+    public AssetCommandHandler assetCommandHandler() {
         return new AssetCommandHandler(axonConfiguration.repository(Asset.class), eventBus);
     }
 
