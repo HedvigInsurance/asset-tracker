@@ -2,33 +2,37 @@ package com.hedvig.generic.asset_tracker.commands;
 
 import com.hedvig.generic.asset_tracker.web.dto.AssetDTO;
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 @Value
 public class CreateAssetCommand {
 
-    private static Logger log = LoggerFactory.getLogger(CreateAssetCommand.class);
-
     @TargetAggregateIdentifier
-    public String id;
-    public String photoUrl;
-    public String receiptUrl;
-    public String title;
-    public String state;
-    public Boolean includedInBasePackage;
-    public String userId;
+    String id;
 
-    public CreateAssetCommand(String userId, String id, AssetDTO asset) {
-        log.info("CreateAssetCommand");
-        this.userId = userId;
-        this.id = id;
-        this.photoUrl = asset.photoUrl;
-        this.receiptUrl = asset.receiptUrl;
-        this.title = asset.title;
-        this.state = asset.state;
-        this.includedInBasePackage = asset.includedInBasePackage;
-        log.info(this.toString());
+    String photoUrl;
+
+    String receiptUrl;
+
+    String title;
+
+    String state;
+
+    Boolean includedInBasePackage;
+
+    String userId;
+
+    public static CreateAssetCommand fromDTO(String userId, String id, AssetDTO assetDTO) {
+        log.info("Created CreateAssetCommand from DTO {} for asset id {} and user id {}", assetDTO, id, userId);
+        return new CreateAssetCommand(
+                id,
+                assetDTO.getPhotoUrl(),
+                assetDTO.getReceiptUrl(),
+                assetDTO.getTitle(),
+                assetDTO.getState(),
+                assetDTO.getIncludedInBasePackage(),
+                userId);
     }
 }

@@ -5,5 +5,6 @@ public enum AssetStates {
     PENDING,
     WAITING_FOR_PAYMENT,
     NOT_COVERED,
-    COVERED
+    COVERED,
+    DELETED
 }

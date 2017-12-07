@@ -1,8 +1,8 @@
 package com.hedvig.generic.asset_tracker.web.dto;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class AssetCreatedDTO {
-    private final String id;
+    String id;
 }

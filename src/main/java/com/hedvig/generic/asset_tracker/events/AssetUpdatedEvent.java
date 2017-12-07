@@ -7,25 +7,15 @@ import org.axonframework.commandhandling.model.AggregateIdentifier;
 public class AssetUpdatedEvent {
 
     @AggregateIdentifier
-    public String id;
-    public String photoUrl;
-    public String receiptUrl;
-    public String title;
-    public String state;
-    public Boolean includedInBasePackage;
+    String id;
 
-    public AssetUpdatedEvent(
-            String id,
-            String photoUrl,
-            String receiptUrl,
-            String title,
-            String state,
-            Boolean includedInBasePackage) {
-        this.id = id;
-        this.photoUrl = photoUrl;
-        this.receiptUrl = receiptUrl;
-        this.title = title;
-        this.state = state;
-        this.includedInBasePackage = includedInBasePackage;
-    }
+    String photoUrl;
+
+    String receiptUrl;
+
+    String title;
+
+    String state;
+
+    Boolean includedInBasePackage;
 }

@@ -18,6 +18,9 @@ public class AssetTrackerApplication {
 
     @Autowired
     public void configure(EventHandlingConfiguration config) {
-        config.usingTrackingProcessors();
+        // Temporary change to make integration test work.
+        // I want to handle event in command processing thread and check data in JPA repository.
+        // Not perfect test, just to begin with.
+        //config.usingTrackingProcessors();
     }
 }

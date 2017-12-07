@@ -21,15 +21,18 @@ public class CreateAssetCommandTest {
 
     @Test
     public void createAssetCommandTest() {
+        val uid = UUID.randomUUID().toString();
         val hid = "user-token-001";
-        val asset = new AssetDTO();
-        asset.includedInBasePackage = true;
-        asset.photoUrl = "photo-url-what-should-be-here";
-        asset.receiptUrl = null;
-        asset.state = AssetStates.PENDING.toString();
-        asset.title = "My first test asset";
-        val uid = UUID.randomUUID();
+        val asset = new AssetDTO(
+                uid,
+                "photo-url-what-should-be-here",
+                "receipt-url",
+                "My first test asset",
+                AssetStates.PENDING.toString(),
+                true,
+                null);
 
-        commandGateway.sendAndWait(new CreateAssetCommand(hid, uid.toString(), asset));
+        // this is not a test really :)))))
+        commandGateway.sendAndWait(CreateAssetCommand.fromDTO(hid, uid, asset));
     }
 }

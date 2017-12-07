@@ -110,7 +110,7 @@ public class AssetTrackerController {
             @RequestHeader(value = "hedvig.token", required = false) String hid) {
         val uid = UUID.randomUUID();
         log.info("Creating asset uid: {}, data: {}", uid, asset);
-        commandBus.sendAndWait(new CreateAssetCommand(hid, uid.toString(), asset));
+        commandBus.sendAndWait(CreateAssetCommand.fromDTO(hid, uid.toString(), asset));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(uid.toString()).toUri();
         val assetCreated = new AssetCreatedDTO(uid.toString());
         return ResponseEntity.created(location).body(assetCreated);
@@ -125,12 +125,12 @@ public class AssetTrackerController {
 
     @RequestMapping(path = "/asset/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateAsset(@RequestBody AssetDTO asset, @PathVariable String id) {
-        if (!id.equals(asset.id))
+        if (!id.equals(asset.getId()))
             return ResponseEntity.badRequest().body("{\"message\":\"Idnumber in body does not match resource id.\"}");
 
-        log.info("Updating:" + asset.id);
-        commandBus.sendAndWait(new UpdateAssetCommand(asset));
-        return ResponseEntity.ok("{\"id:\":\"" + asset.id + "\"}");
+        log.info("Updating asset {}", asset.getId());
+        commandBus.sendAndWait(UpdateAssetCommand.fromDTO(asset));
+        return ResponseEntity.ok("{\"id:\":\"" + asset.getId() + "\"}");
     }
 
 }

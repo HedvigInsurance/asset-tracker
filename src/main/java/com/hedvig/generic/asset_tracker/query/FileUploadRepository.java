@@ -8,5 +8,4 @@ import java.util.UUID;
 public interface FileUploadRepository extends JpaRepository<UploadFile, Integer> {
 
     Optional<UploadFile> findByImageId(UUID id);
-
 }

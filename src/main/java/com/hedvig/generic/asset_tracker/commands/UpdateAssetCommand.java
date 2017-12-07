@@ -2,31 +2,34 @@ package com.hedvig.generic.asset_tracker.commands;
 
 import com.hedvig.generic.asset_tracker.web.dto.AssetDTO;
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 @Value
 public class UpdateAssetCommand {
 
-    private static Logger log = LoggerFactory.getLogger(UpdateAssetCommand.class);
-
     @TargetAggregateIdentifier
-    public String id;
-    public String photoUrl;
-    public String receiptUrl;
-    public String title;
-    public String state;
-    public Boolean includedInBasePackage;
+    String id;
 
-    public UpdateAssetCommand(AssetDTO asset) {
-        log.info("UpdateAssetCommand");
-        this.id = asset.id;
-        this.photoUrl = asset.photoUrl;
-        this.receiptUrl = asset.receiptUrl;
-        this.title = asset.title;
-        this.state = asset.state;
-        this.includedInBasePackage = asset.includedInBasePackage;
-        log.info(this.toString());
+    String photoUrl;
+
+    String receiptUrl;
+
+    String title;
+
+    String state;
+
+    Boolean includedInBasePackage;
+
+    public static UpdateAssetCommand fromDTO(AssetDTO assetDTO) {
+        log.info("Created CreateAssetCommand from DTO {}", assetDTO);
+        return new UpdateAssetCommand(
+                assetDTO.getId(),
+                assetDTO.getPhotoUrl(),
+                assetDTO.getReceiptUrl(),
+                assetDTO.getTitle(),
+                assetDTO.getState(),
+                assetDTO.getIncludedInBasePackage());
     }
 }

@@ -1,22 +1,25 @@
 package com.hedvig.generic.asset_tracker.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Value;
 
 import java.time.LocalDate;
 
-@NoArgsConstructor
-@ToString
+@Value
 public class AssetDTO {
 
-    public String id;
-    public String photoUrl;
-    public String receiptUrl;
-    public String title;
-    public String state;
-    public Boolean includedInBasePackage;
+    String id;
+
+    String photoUrl;
+
+    String receiptUrl;
+
+    String title;
+
+    String state;
+
+    Boolean includedInBasePackage;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public LocalDate registrationDate;
+    LocalDate registrationDate;
 }

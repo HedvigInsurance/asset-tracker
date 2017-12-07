@@ -3,16 +3,15 @@ package com.hedvig.generic.asset_tracker.query;
 import com.hedvig.generic.asset_tracker.events.AssetCreatedEvent;
 import com.hedvig.generic.asset_tracker.events.AssetDeletedEvent;
 import com.hedvig.generic.asset_tracker.events.AssetUpdatedEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class AssetEventListener {
 
-    private static Logger log = LoggerFactory.getLogger(AssetEventListener.class);
     private final AssetRepository repository;
 
     @Autowired
@@ -31,6 +30,7 @@ public class AssetEventListener {
         asset.title = e.getTitle();
         asset.state = e.getState();
         asset.registrationDate = e.getRegistrationDate();
+        asset.includedInBasePackage = e.getIncludedInBasePackage();
         repository.save(asset);
     }
 

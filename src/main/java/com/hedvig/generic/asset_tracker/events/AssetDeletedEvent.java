@@ -7,12 +7,5 @@ import org.axonframework.commandhandling.model.AggregateIdentifier;
 public class AssetDeletedEvent {
 
     @AggregateIdentifier
-    public String id;
-
-    public AssetDeletedEvent(
-            String id
-    ) {
-        this.id = id;
-
-    }
+    String id;
 }
