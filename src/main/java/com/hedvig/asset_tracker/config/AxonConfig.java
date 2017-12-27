@@ -49,7 +49,7 @@ public class AxonConfig {
     }
 
     @Autowired
-    public void registerKioskEventProcessors(EventHandlingConfiguration config, SpringAMQPMessageSource assetMessageSource) {
+    public void registerAssetEventProcessors(EventHandlingConfiguration config, SpringAMQPMessageSource assetMessageSource) {
         config.registerSubscribingEventProcessor("com.hedvig.asset_tracker.query.integration", c -> assetMessageSource);
     }
 }
