@@ -2,10 +2,10 @@ package com.hedvig.asset_tracker.web;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hedvig.asset_tracker.aggregates.AssetStates;
 import com.hedvig.asset_tracker.query.AssetRepository;
 import com.hedvig.asset_tracker.web.dto.AssetCreatedDTO;
 import com.hedvig.asset_tracker.web.dto.AssetDTO;
+import com.hedvig.common.constant.AssetState;
 import lombok.val;
 import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.junit.Test;
@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.notNullValue;
@@ -101,7 +100,7 @@ public class AssetTrackerControllerTests {
                 "photo-url-what-should-be-here",
                 "receipt-url",
                 "My first test asset",
-                AssetStates.PENDING.toString(),
+                AssetState.PENDING.toString(),
                 true,
                 null);
     }

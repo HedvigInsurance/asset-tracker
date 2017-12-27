@@ -1,8 +1,8 @@
 package com.hedvig.asset_tracker;
 
-import com.hedvig.asset_tracker.aggregates.AssetStates;
 import com.hedvig.asset_tracker.commands.CreateAssetCommand;
 import com.hedvig.asset_tracker.web.dto.AssetDTO;
+import com.hedvig.common.constant.AssetState;
 import lombok.val;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class CreateAssetCommandTest {
                 "photo-url-what-should-be-here",
                 "receipt-url",
                 "My first test asset",
-                AssetStates.PENDING.toString(),
+                AssetState.PENDING.toString(),
                 true,
                 null);
 

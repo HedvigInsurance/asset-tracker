@@ -1,14 +1,11 @@
 package com.hedvig.asset_tracker.config;
 
-import com.hedvig.asset_tracker.aggregates.Asset;
-import com.hedvig.asset_tracker.aggregates.AssetCommandHandler;
 import org.axonframework.amqp.eventhandling.spring.SpringAMQPMessageSource;
 import org.axonframework.config.EventHandlingConfiguration;
 import org.axonframework.eventhandling.EventBus;
 import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
 import org.axonframework.serialization.Serializer;
-import org.axonframework.spring.config.AxonConfiguration;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
@@ -26,21 +23,9 @@ public class AxonConfig {
     @Value("${amqp.queue.state}")
     private String stateQueue;
 
-    private final AxonConfiguration axonConfiguration;
-
-    @Autowired
-    public AxonConfig(AxonConfiguration axonConfiguration) {
-        this.axonConfiguration = axonConfiguration;
-    }
-
     @Bean
     public EventBus eventBus(EventStorageEngine eventStorageEngine) {
         return new EmbeddedEventStore(eventStorageEngine);
-    }
-
-    @Bean
-    public AssetCommandHandler assetCommandHandler(EventBus eventBus) {
-        return new AssetCommandHandler(axonConfiguration.repository(Asset.class), eventBus);
     }
 
     @Bean
