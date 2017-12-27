@@ -95,13 +95,8 @@ public class AssetTrackerController {
 
     @RequestMapping(path = "/asset", method = RequestMethod.GET)
     public List<AssetDTO> getAsset(@RequestHeader(value = "hedvig.token", required = false) String hid) {
-        /*return userRepository
-                .findByUserId(hid)
-                .map(u -> ResponseEntity.ok(new AssetDTO(hid, u.id, u.name, u.registrationDate)))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));*/
         log.info("Finding all assets for user: " + hid);
-        return (List<AssetDTO>) userRepository.findByUserId(hid).stream().map(n -> n.convertToDTO()).collect(Collectors.toList());
-
+        return userRepository.findByUserId(hid).stream().map(n -> n.convertToDTO()).collect(Collectors.toList());
     }
 
     @RequestMapping(path = "/asset", method = RequestMethod.POST)

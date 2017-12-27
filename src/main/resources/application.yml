@@ -27,8 +27,6 @@ amqp:
   hostname: localhost
   exchange:
     state: hedvig-assets-state
-    pending: hedvig-assets-pending
   queue:
     state: hadvig-assets-state-queue
-    pending: hedvig-assets-queue
 
