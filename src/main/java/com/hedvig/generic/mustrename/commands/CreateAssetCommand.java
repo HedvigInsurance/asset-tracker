@@ -1,21 +1,16 @@
 package com.hedvig.generic.mustrename.commands;
 
+import com.hedvig.generic.mustrename.web.dto.AssetDTO;
 import lombok.Value;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hedvig.generic.mustrename.query.AssetEventListener;
-import com.hedvig.generic.mustrename.web.dto.AssetDTO;
-
-import java.time.LocalDate;
-import java.util.UUID;
-
 @Value
 public class CreateAssetCommand {
 
-	private static Logger log = LoggerFactory.getLogger(CreateAssetCommand.class);
-	
+    private static Logger log = LoggerFactory.getLogger(CreateAssetCommand.class);
+
     @TargetAggregateIdentifier
     public String id;
     public String photoUrl;

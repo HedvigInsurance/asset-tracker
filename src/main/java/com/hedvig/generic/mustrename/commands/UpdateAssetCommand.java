@@ -1,20 +1,16 @@
 package com.hedvig.generic.mustrename.commands;
 
+import com.hedvig.generic.mustrename.web.dto.AssetDTO;
 import lombok.Value;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hedvig.generic.mustrename.query.AssetEventListener;
-import com.hedvig.generic.mustrename.web.dto.AssetDTO;
-
-import java.time.LocalDate;
-
 @Value
 public class UpdateAssetCommand {
 
-	private static Logger log = LoggerFactory.getLogger(UpdateAssetCommand.class);
-	
+    private static Logger log = LoggerFactory.getLogger(UpdateAssetCommand.class);
+
     @TargetAggregateIdentifier
     public String id;
     public String photoUrl;
@@ -23,7 +19,7 @@ public class UpdateAssetCommand {
     public String state;
     public Boolean includedInBasePackage;
 
-	public UpdateAssetCommand(AssetDTO asset) {
+    public UpdateAssetCommand(AssetDTO asset) {
         log.info("UpdateAssetCommand");
         this.id = asset.id;
         this.photoUrl = asset.photoUrl;
@@ -32,5 +28,5 @@ public class UpdateAssetCommand {
         this.state = asset.state;
         this.includedInBasePackage = asset.includedInBasePackage;
         log.info(this.toString());
-	}
+    }
 }
