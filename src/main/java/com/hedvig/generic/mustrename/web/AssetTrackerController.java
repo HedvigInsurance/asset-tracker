@@ -3,6 +3,7 @@ package com.hedvig.generic.mustrename.web;
 import com.hedvig.generic.mustrename.commands.CreateAssetCommand;
 import com.hedvig.generic.mustrename.commands.DeleteAssetCommand;
 import com.hedvig.generic.mustrename.commands.UpdateAssetCommand;
+import com.hedvig.generic.mustrename.query.AssetEntity;
 import com.hedvig.generic.mustrename.query.AssetRepository;
 import com.hedvig.generic.mustrename.query.FileUploadRepository;
 import com.hedvig.generic.mustrename.query.UploadFile;
@@ -33,15 +34,18 @@ public class AssetTrackerController {
 
     private static Logger log = LoggerFactory.getLogger(AssetTrackerController.class);
     private final AssetRepository userRepository;
+    private final AssetRepository assetRepository;
     private final CommandGateway commandBus;
     private final FileUploadRepository filerepo;
     private final String imageBaseUrl = "${hedvig.product-pricing.url}";
 
     @Autowired
-    public AssetTrackerController(CommandBus commandBus, AssetRepository repository, FileUploadRepository filerepo) {
+    public AssetTrackerController(CommandBus commandBus, AssetRepository repository,
+                                  FileUploadRepository filerepo, AssetRepository assetRepository) {
         this.commandBus = new DefaultCommandGateway(commandBus);
         this.userRepository = repository;
         this.filerepo = filerepo;
+        this.assetRepository = assetRepository;
     }
 
     @RequestMapping(value = "/asset/fileupload", method = RequestMethod.POST, produces = "application/json;charset=UTF-8", consumes = "multipart/form-data")
@@ -126,6 +130,12 @@ public class AssetTrackerController {
         log.info("Updating:" + asset.id);
         commandBus.sendAndWait(new UpdateAssetCommand(asset));
         return ResponseEntity.ok("{\"id:\":\"" + asset.id + "\"}");
+    }
+
+    @GetMapping("/assets")
+    public List<AssetDTO> assets() {
+        return assetRepository.findAll().stream()
+                .map(AssetEntity::convertToDTO).collect(Collectors.toList());
     }
 
 }
